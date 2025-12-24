@@ -1,0 +1,844 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FF953E0D2EFC2FDE005C35C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF953E0C2EFC2FDE005C35C4 /* AppDelegate.swift */; };
+		FF953E112EFC2FDE005C35C4 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = FF953E0F2EFC2FDE005C35C4 /* Main.html */; };
+		FF953E132EFC2FDE005C35C4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FF953E122EFC2FDE005C35C4 /* Icon.png */; };
+		FF953E152EFC2FDE005C35C4 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = FF953E142EFC2FDE005C35C4 /* Style.css */; };
+		FF953E172EFC2FDE005C35C4 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = FF953E162EFC2FDE005C35C4 /* Script.js */; };
+		FF953E192EFC2FDE005C35C4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF953E182EFC2FDE005C35C4 /* ViewController.swift */; };
+		FF953E1C2EFC2FDE005C35C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF953E1A2EFC2FDE005C35C4 /* Main.storyboard */; };
+		FF953E1E2EFC2FDF005C35C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF953E1D2EFC2FDF005C35C4 /* Assets.xcassets */; };
+		FF953E2B2EFC2FDF005C35C4 /* Twitter_Feed_BlockerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF953E2A2EFC2FDF005C35C4 /* Twitter_Feed_BlockerTests.swift */; };
+		FF953E352EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF953E342EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITests.swift */; };
+		FF953E372EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF953E362EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITestsLaunchTests.swift */; };
+		FF953E3D2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FF953E3C2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FF953E422EFC2FDF005C35C4 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF953E412EFC2FDF005C35C4 /* SafariWebExtensionHandler.swift */; };
+		FF953E582EFC2FDF005C35C4 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = FF953E552EFC2FDF005C35C4 /* styles.css */; };
+		FF953E592EFC2FDF005C35C4 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = FF953E562EFC2FDF005C35C4 /* manifest.json */; };
+		FF953E5A2EFC2FDF005C35C4 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = FF953E572EFC2FDF005C35C4 /* content.js */; };
+		FF953E5B2EFC2FDF005C35C4 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FF953E5C2EFC2FDF005C35C4 /* icons */; };
+		FF953E5D2EFC2FDF005C35C4 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = FF953E5E2EFC2FDF005C35C4 /* popup.html */; };
+		FF953E5F2EFC2FDF005C35C4 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = FF953E602EFC2FDF005C35C4 /* popup.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FF953E272EFC2FDF005C35C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF953E012EFC2FDE005C35C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF953E082EFC2FDE005C35C4;
+			remoteInfo = "Twitter Feed Blocker";
+		};
+		FF953E312EFC2FDF005C35C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF953E012EFC2FDE005C35C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF953E082EFC2FDE005C35C4;
+			remoteInfo = "Twitter Feed Blocker";
+		};
+		FF953E3E2EFC2FDF005C35C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF953E012EFC2FDE005C35C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF953E3B2EFC2FDF005C35C4;
+			remoteInfo = "Twitter Feed Blocker Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FF953E4A2EFC2FDF005C35C4 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FF953E3D2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FF953E092EFC2FDE005C35C4 /* Twitter Feed Blocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Twitter Feed Blocker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF953E0C2EFC2FDE005C35C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FF953E102EFC2FDE005C35C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		FF953E122EFC2FDE005C35C4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		FF953E142EFC2FDE005C35C4 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		FF953E162EFC2FDE005C35C4 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		FF953E182EFC2FDE005C35C4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FF953E1B2EFC2FDE005C35C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FF953E1D2EFC2FDF005C35C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FF953E1F2EFC2FDF005C35C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF953E202EFC2FDF005C35C4 /* Twitter_Feed_Blocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Twitter_Feed_Blocker.entitlements; sourceTree = "<group>"; };
+		FF953E212EFC2FDF005C35C4 /* Twitter Feed Blocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Twitter Feed Blocker.entitlements"; sourceTree = "<group>"; };
+		FF953E262EFC2FDF005C35C4 /* Twitter Feed BlockerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Twitter Feed BlockerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF953E2A2EFC2FDF005C35C4 /* Twitter_Feed_BlockerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter_Feed_BlockerTests.swift; sourceTree = "<group>"; };
+		FF953E302EFC2FDF005C35C4 /* Twitter Feed BlockerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Twitter Feed BlockerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF953E342EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter_Feed_BlockerUITests.swift; sourceTree = "<group>"; };
+		FF953E362EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter_Feed_BlockerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FF953E3C2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Twitter Feed Blocker Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF953E412EFC2FDF005C35C4 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		FF953E432EFC2FDF005C35C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF953E442EFC2FDF005C35C4 /* Twitter_Feed_Blocker_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Twitter_Feed_Blocker_Extension.entitlements; sourceTree = "<group>"; };
+		FF953E552EFC2FDF005C35C4 /* styles.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
+		FF953E562EFC2FDF005C35C4 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		FF953E572EFC2FDF005C35C4 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
+		FF953E5C2EFC2FDF005C35C4 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icons; sourceTree = "<group>"; };
+		FF953E5E2EFC2FDF005C35C4 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		FF953E602EFC2FDF005C35C4 /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FF953E062EFC2FDE005C35C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E232EFC2FDF005C35C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E2D2EFC2FDF005C35C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E392EFC2FDF005C35C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FF953E002EFC2FDE005C35C4 = {
+			isa = PBXGroup;
+			children = (
+				FF953E0B2EFC2FDE005C35C4 /* Twitter Feed Blocker */,
+				FF953E292EFC2FDF005C35C4 /* Twitter Feed BlockerTests */,
+				FF953E332EFC2FDF005C35C4 /* Twitter Feed BlockerUITests */,
+				FF953E402EFC2FDF005C35C4 /* Twitter Feed Blocker Extension */,
+				FF953E0A2EFC2FDE005C35C4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FF953E0A2EFC2FDE005C35C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E092EFC2FDE005C35C4 /* Twitter Feed Blocker.app */,
+				FF953E262EFC2FDF005C35C4 /* Twitter Feed BlockerTests.xctest */,
+				FF953E302EFC2FDF005C35C4 /* Twitter Feed BlockerUITests.xctest */,
+				FF953E3C2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FF953E0B2EFC2FDE005C35C4 /* Twitter Feed Blocker */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E0C2EFC2FDE005C35C4 /* AppDelegate.swift */,
+				FF953E182EFC2FDE005C35C4 /* ViewController.swift */,
+				FF953E1A2EFC2FDE005C35C4 /* Main.storyboard */,
+				FF953E1D2EFC2FDF005C35C4 /* Assets.xcassets */,
+				FF953E1F2EFC2FDF005C35C4 /* Info.plist */,
+				FF953E202EFC2FDF005C35C4 /* Twitter_Feed_Blocker.entitlements */,
+				FF953E212EFC2FDF005C35C4 /* Twitter Feed Blocker.entitlements */,
+				FF953E0E2EFC2FDE005C35C4 /* Resources */,
+			);
+			path = "Twitter Feed Blocker";
+			sourceTree = "<group>";
+		};
+		FF953E0E2EFC2FDE005C35C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E0F2EFC2FDE005C35C4 /* Main.html */,
+				FF953E122EFC2FDE005C35C4 /* Icon.png */,
+				FF953E142EFC2FDE005C35C4 /* Style.css */,
+				FF953E162EFC2FDE005C35C4 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FF953E292EFC2FDF005C35C4 /* Twitter Feed BlockerTests */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E2A2EFC2FDF005C35C4 /* Twitter_Feed_BlockerTests.swift */,
+			);
+			path = "Twitter Feed BlockerTests";
+			sourceTree = "<group>";
+		};
+		FF953E332EFC2FDF005C35C4 /* Twitter Feed BlockerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E342EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITests.swift */,
+				FF953E362EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITestsLaunchTests.swift */,
+			);
+			path = "Twitter Feed BlockerUITests";
+			sourceTree = "<group>";
+		};
+		FF953E402EFC2FDF005C35C4 /* Twitter Feed Blocker Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E542EFC2FDF005C35C4 /* Resources */,
+				FF953E412EFC2FDF005C35C4 /* SafariWebExtensionHandler.swift */,
+				FF953E432EFC2FDF005C35C4 /* Info.plist */,
+				FF953E442EFC2FDF005C35C4 /* Twitter_Feed_Blocker_Extension.entitlements */,
+			);
+			path = "Twitter Feed Blocker Extension";
+			sourceTree = "<group>";
+		};
+		FF953E542EFC2FDF005C35C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FF953E5C2EFC2FDF005C35C4 /* icons */,
+				FF953E552EFC2FDF005C35C4 /* styles.css */,
+				FF953E562EFC2FDF005C35C4 /* manifest.json */,
+				FF953E572EFC2FDF005C35C4 /* content.js */,
+				FF953E5E2EFC2FDF005C35C4 /* popup.html */,
+				FF953E602EFC2FDF005C35C4 /* popup.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FF953E082EFC2FDE005C35C4 /* Twitter Feed Blocker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF953E4B2EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed Blocker" */;
+			buildPhases = (
+				FF953E052EFC2FDE005C35C4 /* Sources */,
+				FF953E062EFC2FDE005C35C4 /* Frameworks */,
+				FF953E072EFC2FDE005C35C4 /* Resources */,
+				FF953E4A2EFC2FDF005C35C4 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF953E3F2EFC2FDF005C35C4 /* PBXTargetDependency */,
+			);
+			name = "Twitter Feed Blocker";
+			packageProductDependencies = (
+			);
+			productName = "Twitter Feed Blocker";
+			productReference = FF953E092EFC2FDE005C35C4 /* Twitter Feed Blocker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FF953E252EFC2FDF005C35C4 /* Twitter Feed BlockerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF953E4E2EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed BlockerTests" */;
+			buildPhases = (
+				FF953E222EFC2FDF005C35C4 /* Sources */,
+				FF953E232EFC2FDF005C35C4 /* Frameworks */,
+				FF953E242EFC2FDF005C35C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF953E282EFC2FDF005C35C4 /* PBXTargetDependency */,
+			);
+			name = "Twitter Feed BlockerTests";
+			packageProductDependencies = (
+			);
+			productName = "Twitter Feed BlockerTests";
+			productReference = FF953E262EFC2FDF005C35C4 /* Twitter Feed BlockerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FF953E2F2EFC2FDF005C35C4 /* Twitter Feed BlockerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF953E512EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed BlockerUITests" */;
+			buildPhases = (
+				FF953E2C2EFC2FDF005C35C4 /* Sources */,
+				FF953E2D2EFC2FDF005C35C4 /* Frameworks */,
+				FF953E2E2EFC2FDF005C35C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF953E322EFC2FDF005C35C4 /* PBXTargetDependency */,
+			);
+			name = "Twitter Feed BlockerUITests";
+			packageProductDependencies = (
+			);
+			productName = "Twitter Feed BlockerUITests";
+			productReference = FF953E302EFC2FDF005C35C4 /* Twitter Feed BlockerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		FF953E3B2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF953E472EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed Blocker Extension" */;
+			buildPhases = (
+				FF953E382EFC2FDF005C35C4 /* Sources */,
+				FF953E392EFC2FDF005C35C4 /* Frameworks */,
+				FF953E3A2EFC2FDF005C35C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Twitter Feed Blocker Extension";
+			packageProductDependencies = (
+			);
+			productName = "Twitter Feed Blocker Extension";
+			productReference = FF953E3C2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FF953E012EFC2FDE005C35C4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					FF953E082EFC2FDE005C35C4 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					FF953E252EFC2FDF005C35C4 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = FF953E082EFC2FDE005C35C4;
+					};
+					FF953E2F2EFC2FDF005C35C4 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = FF953E082EFC2FDE005C35C4;
+					};
+					FF953E3B2EFC2FDF005C35C4 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+				};
+			};
+			buildConfigurationList = FF953E042EFC2FDE005C35C4 /* Build configuration list for PBXProject "Twitter Feed Blocker" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FF953E002EFC2FDE005C35C4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FF953E0A2EFC2FDE005C35C4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FF953E082EFC2FDE005C35C4 /* Twitter Feed Blocker */,
+				FF953E252EFC2FDF005C35C4 /* Twitter Feed BlockerTests */,
+				FF953E2F2EFC2FDF005C35C4 /* Twitter Feed BlockerUITests */,
+				FF953E3B2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FF953E072EFC2FDE005C35C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF953E132EFC2FDE005C35C4 /* Icon.png in Resources */,
+				FF953E1C2EFC2FDE005C35C4 /* Main.storyboard in Resources */,
+				FF953E172EFC2FDE005C35C4 /* Script.js in Resources */,
+				FF953E112EFC2FDE005C35C4 /* Main.html in Resources */,
+				FF953E1E2EFC2FDF005C35C4 /* Assets.xcassets in Resources */,
+				FF953E152EFC2FDE005C35C4 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E242EFC2FDF005C35C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E2E2EFC2FDF005C35C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E3A2EFC2FDF005C35C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF953E5B2EFC2FDF005C35C4 /* icons in Resources */,
+				FF953E5A2EFC2FDF005C35C4 /* content.js in Resources */,
+				FF953E592EFC2FDF005C35C4 /* manifest.json in Resources */,
+				FF953E582EFC2FDF005C35C4 /* styles.css in Resources */,
+				FF953E5D2EFC2FDF005C35C4 /* popup.html in Resources */,
+				FF953E5F2EFC2FDF005C35C4 /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FF953E052EFC2FDE005C35C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF953E192EFC2FDE005C35C4 /* ViewController.swift in Sources */,
+				FF953E0D2EFC2FDE005C35C4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E222EFC2FDF005C35C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF953E2B2EFC2FDF005C35C4 /* Twitter_Feed_BlockerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E2C2EFC2FDF005C35C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF953E352EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITests.swift in Sources */,
+				FF953E372EFC2FDF005C35C4 /* Twitter_Feed_BlockerUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF953E382EFC2FDF005C35C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF953E422EFC2FDF005C35C4 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FF953E282EFC2FDF005C35C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF953E082EFC2FDE005C35C4 /* Twitter Feed Blocker */;
+			targetProxy = FF953E272EFC2FDF005C35C4 /* PBXContainerItemProxy */;
+		};
+		FF953E322EFC2FDF005C35C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF953E082EFC2FDE005C35C4 /* Twitter Feed Blocker */;
+			targetProxy = FF953E312EFC2FDF005C35C4 /* PBXContainerItemProxy */;
+		};
+		FF953E3F2EFC2FDF005C35C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF953E3B2EFC2FDF005C35C4 /* Twitter Feed Blocker Extension */;
+			targetProxy = FF953E3E2EFC2FDF005C35C4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FF953E0F2EFC2FDE005C35C4 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF953E102EFC2FDE005C35C4 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		FF953E1A2EFC2FDE005C35C4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF953E1B2EFC2FDE005C35C4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FF953E452EFC2FDF005C35C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FF953E462EFC2FDF005C35C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		FF953E482EFC2FDF005C35C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Twitter Feed Blocker Extension/Twitter_Feed_Blocker_Extension.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Twitter Feed Blocker Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Twitter Feed Blocker Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-Blocker.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FF953E492EFC2FDF005C35C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Twitter Feed Blocker Extension/Twitter_Feed_Blocker_Extension.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Twitter Feed Blocker Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Twitter Feed Blocker Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-Blocker.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FF953E4C2EFC2FDF005C35C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Twitter Feed Blocker/Twitter Feed Blocker.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Twitter Feed Blocker/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Twitter Feed Blocker";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-Blocker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FF953E4D2EFC2FDF005C35C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Twitter Feed Blocker/Twitter Feed Blocker.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Twitter Feed Blocker/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Twitter Feed Blocker";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-Blocker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FF953E4F2EFC2FDF005C35C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-BlockerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Twitter Feed Blocker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Twitter Feed Blocker";
+			};
+			name = Debug;
+		};
+		FF953E502EFC2FDF005C35C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-BlockerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Twitter Feed Blocker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Twitter Feed Blocker";
+			};
+			name = Release;
+		};
+		FF953E522EFC2FDF005C35C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-BlockerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Twitter Feed Blocker";
+			};
+			name = Debug;
+		};
+		FF953E532EFC2FDF005C35C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2GAZ4HTL6T;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.thales.Twitter-Feed-BlockerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Twitter Feed Blocker";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FF953E042EFC2FDE005C35C4 /* Build configuration list for PBXProject "Twitter Feed Blocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF953E452EFC2FDF005C35C4 /* Debug */,
+				FF953E462EFC2FDF005C35C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF953E472EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed Blocker Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF953E482EFC2FDF005C35C4 /* Debug */,
+				FF953E492EFC2FDF005C35C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF953E4B2EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed Blocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF953E4C2EFC2FDF005C35C4 /* Debug */,
+				FF953E4D2EFC2FDF005C35C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF953E4E2EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed BlockerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF953E4F2EFC2FDF005C35C4 /* Debug */,
+				FF953E502EFC2FDF005C35C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF953E512EFC2FDF005C35C4 /* Build configuration list for PBXNativeTarget "Twitter Feed BlockerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF953E522EFC2FDF005C35C4 /* Debug */,
+				FF953E532EFC2FDF005C35C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FF953E012EFC2FDE005C35C4 /* Project object */;
+}
