@@ -137,61 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Settings - Reset all data button (now in Advanced Options)
-  const resetAllButton = document.getElementById("resetAllButton");
-  if (resetAllButton) {
-    resetAllButton.addEventListener("click", function (e) {
-      e.stopPropagation(); // Prevent triggering parent click
-      
-      if (
-        confirm(
-          "⚠️ WARNING: This will delete ALL data including:\n\n" +
-          "• Annual salary\n" +
-          "• All statistics (daily, weekly, monthly, yearly)\n" +
-          "• Advanced blocking options\n" +
-          "• Extension state\n\n" +
-          "This cannot be undone. Are you sure?"
-        )
-      ) {
-        // Get all keys first
-        browser.storage.local.get(null).then((allData) => {
-          const keysToRemove = Object.keys(allData);
-          
-          // Remove all keys
-          if (keysToRemove.length > 0) {
-            browser.storage.local.remove(keysToRemove).then(() => {
-              // Set default state
-              return browser.storage.local.set({
-                xFeedBlockerEnabled: true,
-                enabledAt: Date.now(),
-                lastResetDate: new Date().toDateString(),
-              });
-            }).then(() => {
-              alert("✅ All data has been reset! The extension will reload.");
-              // Reload the popup to reflect changes
-              window.location.reload();
-            }).catch((error) => {
-              console.error("Reset error:", error);
-              alert("❌ Error resetting data. Please try again.");
-            });
-          } else {
-            // No data to clear, just set defaults
-            browser.storage.local.set({
-              xFeedBlockerEnabled: true,
-              enabledAt: Date.now(),
-              lastResetDate: new Date().toDateString(),
-            }).then(() => {
-              alert("✅ Extension reset to default state!");
-              window.location.reload();
-            });
-          }
-        }).catch((error) => {
-          console.error("Reset error:", error);
-          alert("❌ Error resetting data. Please try again.");
-        });
-      }
-    });
-  }
 
   // Disable modal handlers
   modalCancel.addEventListener("click", hideDisableModal);
