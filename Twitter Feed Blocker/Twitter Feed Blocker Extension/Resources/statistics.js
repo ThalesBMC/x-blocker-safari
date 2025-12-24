@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update chart (only for today)
         if (currentPeriod === "today") {
-          updateWeekChart(result, hourlyRate);
+          updateWeekChart(result, hourlyRate, currentSessionSaved, currentSessionWasted);
         }
 
         // Update insights
@@ -290,17 +290,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return days;
   }
 
-  function updateWeekChart(result, hourlyRate) {
+  function updateWeekChart(result, hourlyRate, currentSessionSaved, currentSessionWasted) {
     const dailyStats = result.dailyStats || {};
     const last7Days = getLast7Days().reverse();
     const today = new Date().toDateString();
 
     weekChart.innerHTML = "";
 
-    // Add today
-    const todaySaved = (result.totalTimeSaved || 0) / (1000 * 60 * 60);
-    const todayMoney = todaySaved * hourlyRate;
-    addChartBar("Today", todayMoney);
+    // Collect all values first to find max for scaling
+    const chartData = [];
+
+    // Add today (including current session)
+    const todayTotalSaved = (result.totalTimeSaved || 0) + (currentSessionSaved || 0);
+    const todaySavedHours = todayTotalSaved / (1000 * 60 * 60);
+    const todayMoney = todaySavedHours * hourlyRate;
+    chartData.push({ label: "Today", value: todayMoney });
 
     // Add last 7 days
     last7Days.forEach((dateStr) => {
@@ -309,13 +313,21 @@ document.addEventListener("DOMContentLoaded", function () {
       const stats = dailyStats[dateStr] || { timeSaved: 0 };
       const hours = stats.timeSaved / (1000 * 60 * 60);
       const money = hours * hourlyRate;
-      addChartBar(dayName, money);
+      chartData.push({ label: dayName, value: money });
+    });
+
+    // Find max value for dynamic scaling
+    const maxValue = Math.max(...chartData.map(d => d.value), 1); // At least 1 to avoid division by zero
+
+    // Render bars
+    chartData.forEach(data => {
+      addChartBar(data.label, data.value, maxValue);
     });
   }
 
-  function addChartBar(label, value) {
-    const maxValue = 100; // Max value for scaling
-    const percentage = Math.min((value / maxValue) * 100, 100);
+  function addChartBar(label, value, maxValue) {
+    // Calculate percentage based on max value (dynamic scaling)
+    const percentage = maxValue > 0 ? (value / maxValue) * 100 : 0;
 
     const barItem = document.createElement("div");
     barItem.className = "bar-item";

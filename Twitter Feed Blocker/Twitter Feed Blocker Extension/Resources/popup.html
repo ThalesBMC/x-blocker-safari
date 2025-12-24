@@ -1,646 +1,687 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>X Feed Blocker</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      width: 340px;
-      min-height: 500px;
-      padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      color: #fff;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .logo {
-      width: 32px;
-      height: 32px;
-    }
-
-    .title {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-
-    .status-card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .status-label {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(34, 197, 94, 0.2);
-      color: #22c55e;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .status-badge.inactive {
-      background: rgba(239, 68, 68, 0.2);
-      color: #ef4444;
-    }
-
-    .pulse {
-      width: 8px;
-      height: 8px;
-      background: #22c55e;
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    .status-badge.inactive .pulse {
-      background: #ef4444;
-      animation: none;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 12px;
-    }
-
-    .toggle-label {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .toggle {
-      position: relative;
-      width: 48px;
-      height: 26px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 13px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .toggle.active {
-      background: #22c55e;
-    }
-
-    .toggle-knob {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      border-radius: 50%;
-      transition: transform 0.3s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .toggle.active .toggle-knob {
-      transform: translateX(22px);
-    }
-
-    /* Money Stats */
-    .money-card {
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(251, 191, 36, 0.3);
-    }
-
-    .money-card.losing {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
-      border-color: rgba(239, 68, 68, 0.3);
-    }
-
-    .money-title {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: rgba(255, 255, 255, 0.6);
-      margin-bottom: 8px;
-    }
-
-    .money-amount {
-      font-size: 32px;
-      font-weight: 700;
-      color: #fbbf24;
-      margin-bottom: 4px;
-    }
-
-    .money-card.losing .money-amount {
-      color: #ef4444;
-    }
-
-    .money-subtitle {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .setup-link {
-      color: #60a5fa;
-      text-decoration: none;
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 8px;
-    }
-
-    .setup-link:hover {
-      text-decoration: underline;
-    }
-
-    .divider {
-      height: 1px;
-      background: rgba(255, 255, 255, 0.1);
-      margin: 16px 0;
-    }
-
-    .advanced-section {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .advanced-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .advanced-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .expand-button {
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 12px;
-      cursor: pointer;
-      padding: 4px;
-      transition: transform 0.3s ease;
-    }
-
-    .expand-button.expanded {
-      transform: rotate(180deg);
-    }
-
-    .advanced-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-
-    .advanced-content.expanded {
-      max-height: 300px;
-      margin-top: 16px;
-    }
-
-    .advanced-description {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-      margin-bottom: 12px;
-    }
-
-    .option-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .option-item:last-child {
-      border-bottom: none;
-    }
-
-    .option-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .option-icon {
-      font-size: 18px;
-    }
-
-    .option-label {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .mini-toggle {
-      width: 44px;
-      height: 24px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      position: relative;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .mini-toggle.active {
-      background: #ef4444;
-    }
-
-    .mini-toggle-knob {
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      border-radius: 50%;
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      transition: transform 0.3s ease;
-    }
-
-    .mini-toggle.active .mini-toggle-knob {
-      transform: translateX(20px);
-    }
-
-    .stats-button {
-      display: block;
-      text-align: center;
-      padding: 12px;
-      background: rgba(96, 165, 250, 0.15);
-      border: 1px solid rgba(96, 165, 250, 0.3);
-      border-radius: 8px;
-      color: #60a5fa;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.2s;
-      margin-bottom: 16px;
-    }
-
-    .stats-button:hover {
-      background: rgba(96, 165, 250, 0.25);
-      border-color: rgba(96, 165, 250, 0.5);
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal {
-      background: #1a1a2e;
-      border-radius: 16px;
-      padding: 24px;
-      width: 100%;
-      max-width: 320px;
-      max-height: 90vh;
-      overflow-y: auto;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .modal-icon {
-      font-size: 48px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .modal-title {
-      font-size: 20px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 20px;
-      color: #ef4444;
-    }
-
-    .modal-challenge {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.7);
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .modal-phrase {
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-      color: #fbbf24;
-      background: rgba(251, 191, 36, 0.1);
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(251, 191, 36, 0.2);
-      line-height: 1.6;
-    }
-
-    .modal-input {
-      width: 100%;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 13px;
-      margin-bottom: 16px;
-      font-family: inherit;
-    }
-
-    .modal-input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    .modal-input:focus {
-      outline: none;
-      border-color: #fbbf24;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .modal-button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-
-    .modal-button.cancel {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-
-    .modal-button.cancel:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .modal-button.confirm {
-      background: #ef4444;
-      color: #fff;
-    }
-
-    .modal-button.confirm:hover {
-      background: #dc2626;
-    }
-
-    .modal-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .modal-error {
-      font-size: 12px;
-      color: #ef4444;
-      text-align: center;
-      margin-top: 8px;
-      display: none;
-    }
-
-    .modal-error.show {
-      display: block;
-    }
-
-    /* Setup Modal */
-    .setup-input {
-      width: 100%;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 12px;
-      font-family: inherit;
-      text-align: center;
-    }
-
-    .setup-input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    .setup-input:focus {
-      outline: none;
-      border-color: #fbbf24;
-    }
-
-    .setup-hint {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-      text-align: center;
-      margin-bottom: 16px;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <img src="icons/icon-48.png" alt="Logo" class="logo">
-    <div class="title">X Feed Blocker</div>
-  </div>
-
-  <div class="status-card">
-    <div class="status-row">
-      <span class="status-label">Status</span>
-      <div class="status-badge" id="statusBadge">
-        <div class="pulse"></div>
-        <span id="statusText">Active</span>
-      </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X Feed Blocker</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 340px;
+        min-height: 500px;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+          "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        width: 32px;
+        height: 32px;
+      }
+
+      .title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      .status-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .status-label {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .status-badge.inactive {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+      }
+
+      .pulse {
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      .status-badge.inactive .pulse {
+        background: #ef4444;
+        animation: none;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.2);
+        }
+      }
+
+      .toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 12px;
+      }
+
+      .toggle-label {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .toggle {
+        position: relative;
+        width: 48px;
+        height: 26px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 13px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .toggle.active {
+        background: #22c55e;
+      }
+
+      .toggle-knob {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .toggle.active .toggle-knob {
+        transform: translateX(22px);
+      }
+
+      /* Money Stats */
+      .money-card {
+        background: linear-gradient(
+          135deg,
+          rgba(251, 191, 36, 0.15) 0%,
+          rgba(245, 158, 11, 0.15) 100%
+        );
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(251, 191, 36, 0.3);
+      }
+
+      .money-card.losing {
+        background: linear-gradient(
+          135deg,
+          rgba(239, 68, 68, 0.15) 0%,
+          rgba(220, 38, 38, 0.15) 100%
+        );
+        border-color: rgba(239, 68, 68, 0.3);
+      }
+
+      .money-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 8px;
+      }
+
+      .money-amount {
+        font-size: 32px;
+        font-weight: 700;
+        color: #fbbf24;
+        margin-bottom: 4px;
+      }
+
+      .money-card.losing .money-amount {
+        color: #ef4444;
+      }
+
+      .money-subtitle {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .setup-link {
+        color: #60a5fa;
+        text-decoration: none;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 8px;
+      }
+
+      .setup-link:hover {
+        text-decoration: underline;
+      }
+
+      .divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 16px 0;
+      }
+
+      .advanced-section {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .advanced-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .advanced-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .expand-button {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+        cursor: pointer;
+        padding: 4px;
+        transition: transform 0.3s ease;
+      }
+
+      .expand-button.expanded {
+        transform: rotate(180deg);
+      }
+
+      .advanced-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .advanced-content.expanded {
+        max-height: 300px;
+        margin-top: 16px;
+      }
+
+      .advanced-description {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 12px;
+      }
+
+      .option-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .option-item:last-child {
+        border-bottom: none;
+      }
+
+      .option-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .option-icon {
+        font-size: 18px;
+      }
+
+      .option-label {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .mini-toggle {
+        width: 44px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .mini-toggle.active {
+        background: #ef4444;
+      }
+
+      .mini-toggle-knob {
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.3s ease;
+      }
+
+      .mini-toggle.active .mini-toggle-knob {
+        transform: translateX(20px);
+      }
+
+      .stats-button {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        background: rgba(96, 165, 250, 0.15);
+        border: 1px solid rgba(96, 165, 250, 0.3);
+        border-radius: 8px;
+        color: #60a5fa;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s;
+        margin-bottom: 16px;
+      }
+
+      .stats-button:hover {
+        background: rgba(96, 165, 250, 0.25);
+        border-color: rgba(96, 165, 250, 0.5);
+      }
+
+      .footer {
+        text-align: center;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      .modal {
+        background: #1a1a2e;
+        border-radius: 16px;
+        padding: 24px;
+        width: 100%;
+        max-width: 320px;
+        max-height: 90vh;
+        overflow-y: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: slideUp 0.3s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-icon {
+        font-size: 48px;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ef4444;
+      }
+
+      .modal-challenge {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .modal-phrase {
+        font-size: 13px;
+        font-weight: 600;
+        text-align: center;
+        color: #fbbf24;
+        background: rgba(251, 191, 36, 0.1);
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        line-height: 1.6;
+      }
+
+      .modal-input {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        margin-bottom: 16px;
+        font-family: inherit;
+      }
+
+      .modal-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .modal-input:focus {
+        outline: none;
+        border-color: #fbbf24;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .modal-button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+
+      .modal-button.cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+
+      .modal-button.cancel:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .modal-button.confirm {
+        background: #ef4444;
+        color: #fff;
+      }
+
+      .modal-button.confirm:hover {
+        background: #dc2626;
+      }
+
+      .modal-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .modal-error {
+        font-size: 12px;
+        color: #ef4444;
+        text-align: center;
+        margin-top: 8px;
+        display: none;
+      }
+
+      .modal-error.show {
+        display: block;
+      }
+
+      /* Setup Modal */
+      .setup-input {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 12px;
+        font-family: inherit;
+        text-align: center;
+      }
+
+      .setup-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .setup-input:focus {
+        outline: none;
+        border-color: #fbbf24;
+      }
+
+      .setup-hint {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+        margin-bottom: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img
+        src="icons/icon-128.png"
+        alt="Logo"
+        class="logo"
+        width="48"
+        height="48"
+      />
+      <div class="title">X Feed Blocker</div>
     </div>
-    
-    <div class="toggle-container">
-      <span class="toggle-label">Block Feed</span>
-      <div class="toggle active" id="toggle">
-        <div class="toggle-knob"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Money Stats -->
-  <div class="money-card" id="moneyCard">
-    <div class="money-title" id="moneyTitle">💰 MONEY SAVED TODAY</div>
-    <div class="money-amount" id="moneyAmount">$0.00</div>
-    <div class="money-subtitle" id="moneySubtitle">Keep it up! 🎯</div>
-    <a href="#" class="setup-link" id="setupLink">⚙️ Set your annual salary</a>
-  </div>
-
-  <div class="divider"></div>
-
-  <div class="advanced-section">
-    <div class="advanced-header">
-      <span class="advanced-title">⚙️ Advanced Options</span>
-      <button class="expand-button" id="expandButton">▼</button>
-    </div>
-    <div class="advanced-content" id="advancedContent">
-      <p class="advanced-description">Block additional distractions (optional)</p>
-      
-      <div class="option-item">
-        <div class="option-info">
-          <span class="option-icon">🔔</span>
-          <span class="option-label">Notifications</span>
-        </div>
-        <div class="mini-toggle" id="toggleNotifications">
-          <div class="mini-toggle-knob"></div>
+    <div class="status-card">
+      <div class="status-row">
+        <span class="status-label">Status</span>
+        <div class="status-badge" id="statusBadge">
+          <div class="pulse"></div>
+          <span id="statusText">Active</span>
         </div>
       </div>
 
-      <div class="option-item">
-        <div class="option-info">
-          <span class="option-icon">💬</span>
-          <span class="option-label">Messages</span>
-        </div>
-        <div class="mini-toggle" id="toggleMessages">
-          <div class="mini-toggle-knob"></div>
-        </div>
-      </div>
-
-      <div class="option-item">
-        <div class="option-info">
-          <span class="option-icon">🔍</span>
-          <span class="option-label">Explore/Search</span>
-        </div>
-        <div class="mini-toggle" id="toggleExplore">
-          <div class="mini-toggle-knob"></div>
-        </div>
-      </div>
-
-      <div class="option-item">
-        <div class="option-info">
-          <span class="option-icon">✍️</span>
-          <span class="option-label">Post Button</span>
-        </div>
-        <div class="mini-toggle" id="togglePost">
-          <div class="mini-toggle-knob"></div>
+      <div class="toggle-container">
+        <span class="toggle-label">Block Feed</span>
+        <div class="toggle active" id="toggle">
+          <div class="toggle-knob"></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="divider"></div>
-
-  <a href="statistics.html" class="stats-button" id="statsButton">
-    📊 View Statistics
-  </a>
-
-  <div class="footer">
-    Your time is your most valuable asset. 💎
-  </div>
-
-  <!-- Disable Confirmation Modal -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <div class="modal-icon">⚠️</div>
-      <div class="modal-title">Are you sure?</div>
-      <div class="modal-challenge">Type the phrase below to disable:</div>
-      <div class="modal-phrase" id="modalPhrase"></div>
-      <input 
-        type="text" 
-        class="modal-input" 
-        id="modalInput" 
-        placeholder="Type the exact phrase..."
-        autocomplete="off"
+    <!-- Money Stats -->
+    <div class="money-card" id="moneyCard">
+      <div class="money-title" id="moneyTitle">💰 MONEY SAVED TODAY</div>
+      <div class="money-amount" id="moneyAmount">$0.00</div>
+      <div class="money-subtitle" id="moneySubtitle">Keep it up! 🎯</div>
+      <a href="#" class="setup-link" id="setupLink"
+        >⚙️ Set your annual salary</a
       >
-      <div class="modal-error" id="modalError">Incorrect phrase. Try again.</div>
-      <div class="modal-buttons">
-        <button class="modal-button cancel" id="modalCancel">Cancel</button>
-        <button class="modal-button confirm" id="modalConfirm">Disable</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="advanced-section">
+      <div class="advanced-header">
+        <span class="advanced-title">⚙️ Advanced Options</span>
+        <button class="expand-button" id="expandButton">▼</button>
+      </div>
+      <div class="advanced-content" id="advancedContent">
+        <p class="advanced-description">
+          Block additional distractions (optional)
+        </p>
+
+        <div class="option-item">
+          <div class="option-info">
+            <span class="option-icon">🔔</span>
+            <span class="option-label">Notifications</span>
+          </div>
+          <div class="mini-toggle" id="toggleNotifications">
+            <div class="mini-toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="option-item">
+          <div class="option-info">
+            <span class="option-icon">💬</span>
+            <span class="option-label">Messages</span>
+          </div>
+          <div class="mini-toggle" id="toggleMessages">
+            <div class="mini-toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="option-item">
+          <div class="option-info">
+            <span class="option-icon">🔍</span>
+            <span class="option-label">Explore/Search</span>
+          </div>
+          <div class="mini-toggle" id="toggleExplore">
+            <div class="mini-toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="option-item">
+          <div class="option-info">
+            <span class="option-icon">✍️</span>
+            <span class="option-label">Post Button</span>
+          </div>
+          <div class="mini-toggle" id="togglePost">
+            <div class="mini-toggle-knob"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Setup Salary Modal -->
-  <div class="modal-overlay" id="setupModal">
-    <div class="modal">
-      <div class="modal-icon">💰</div>
-      <div class="modal-title">Set Your Annual Salary</div>
-      <div class="modal-message">
-        Enter your annual salary in USD to see how much money you're saving (or losing) by using X.
-      </div>
-      <input 
-        type="number" 
-        class="setup-input" 
-        id="salaryInput" 
-        placeholder="$100,000"
-        min="0"
-        step="1000"
-      >
-      <div class="setup-hint">This is stored locally and never shared</div>
-      <div class="modal-buttons">
-        <button class="modal-button cancel" id="setupCancel">Cancel</button>
-        <button class="modal-button confirm" id="setupSave" style="background: #22c55e;">Save</button>
+    <div class="divider"></div>
+
+    <a href="statistics.html" class="stats-button" id="statsButton">
+      📊 View Statistics
+    </a>
+
+    <div class="footer">Your time is your most valuable asset. 💎</div>
+
+    <!-- Disable Confirmation Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Are you sure?</div>
+        <div class="modal-challenge">Type the phrase below to disable:</div>
+        <div class="modal-phrase" id="modalPhrase"></div>
+        <input
+          type="text"
+          class="modal-input"
+          id="modalInput"
+          placeholder="Type the exact phrase..."
+          autocomplete="off"
+        />
+        <div class="modal-error" id="modalError">
+          Incorrect phrase. Try again.
+        </div>
+        <div class="modal-buttons">
+          <button class="modal-button cancel" id="modalCancel">Cancel</button>
+          <button class="modal-button confirm" id="modalConfirm">
+            Disable
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="popup.js"></script>
-</body>
+    <!-- Setup Salary Modal -->
+    <div class="modal-overlay" id="setupModal">
+      <div class="modal">
+        <div class="modal-icon">💰</div>
+        <div class="modal-title">Set Your Annual Salary</div>
+        <div class="modal-message">
+          Enter your annual salary in USD to see how much money you're saving
+          (or losing) by using X.
+        </div>
+        <input
+          type="number"
+          class="setup-input"
+          id="salaryInput"
+          placeholder="$100,000"
+          min="0"
+          step="1000"
+        />
+        <div class="setup-hint">This is stored locally and never shared</div>
+        <div class="modal-buttons">
+          <button class="modal-button cancel" id="setupCancel">Cancel</button>
+          <button
+            class="modal-button confirm"
+            id="setupSave"
+            style="background: #22c55e"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
 </html>

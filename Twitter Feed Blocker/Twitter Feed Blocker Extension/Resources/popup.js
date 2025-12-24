@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
   moneyUpdateInterval = setInterval(() => {
     updateCounter++;
     const useSlowUpdate = updateCounter > 300; // After 5 minutes
-    
+
     if (!useSlowUpdate || updateCounter % 10 === 0) {
       updateMoneyDisplay();
     }
