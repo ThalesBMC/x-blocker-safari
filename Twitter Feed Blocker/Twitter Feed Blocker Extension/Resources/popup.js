@@ -50,6 +50,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const setupCancel = document.getElementById("setupCancel");
   const setupSave = document.getElementById("setupSave");
 
+  // Settings
+  const currentSalary = document.getElementById("currentSalary");
+  const editSalaryButton = document.getElementById("editSalaryButton");
+
   // Advanced options
   const expandButton = document.getElementById("expandButton");
   const advancedHeader = expandButton
@@ -126,6 +130,13 @@ document.addEventListener("DOMContentLoaded", function () {
     showSetupModal();
   });
 
+  // Settings - Edit salary button
+  if (editSalaryButton) {
+    editSalaryButton.addEventListener("click", function () {
+      showSetupModal();
+    });
+  }
+
   // Disable modal handlers
   modalCancel.addEventListener("click", hideDisableModal);
 
@@ -181,6 +192,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (salary && salary > 0) {
       browser.storage.local.set({ annualSalary: salary }).then(() => {
         hideSetupModal();
+        // Update settings display
+        if (currentSalary) {
+          currentSalary.textContent = `$${salary.toLocaleString()}`;
+        }
         updateMoneyDisplay();
       });
     }
@@ -205,6 +220,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (result.annualSalary) {
           salaryInput.value = result.annualSalary;
+          // Update settings display
+          if (currentSalary) {
+            currentSalary.textContent = `$${result.annualSalary.toLocaleString()}`;
+          }
+        } else {
+          // Update settings display
+          if (currentSalary) {
+            currentSalary.textContent = "Not set";
+          }
         }
 
         // Load advanced options state

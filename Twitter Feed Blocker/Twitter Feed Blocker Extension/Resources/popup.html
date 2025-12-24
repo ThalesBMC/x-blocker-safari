@@ -325,25 +325,104 @@
         transform: translateX(20px);
       }
 
-      .stats-button {
-        display: block;
-        text-align: center;
-        padding: 12px;
-        background: rgba(96, 165, 250, 0.15);
-        border: 1px solid rgba(96, 165, 250, 0.3);
-        border-radius: 8px;
-        color: #60a5fa;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.2s;
-        margin-bottom: 16px;
-      }
+    /* Settings Section */
+    .settings-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-      .stats-button:hover {
-        background: rgba(96, 165, 250, 0.25);
-        border-color: rgba(96, 165, 250, 0.5);
-      }
+    .settings-header {
+      margin-bottom: 12px;
+    }
+
+    .settings-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .settings-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+    }
+
+    .settings-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .settings-icon {
+      font-size: 20px;
+    }
+
+    .settings-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .settings-label {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .settings-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .settings-edit-button {
+      background: rgba(96, 165, 250, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      color: #60a5fa;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .settings-edit-button:hover {
+      background: rgba(96, 165, 250, 0.25);
+      border-color: rgba(96, 165, 250, 0.5);
+    }
+
+    .stats-button {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background: rgba(96, 165, 250, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      border-radius: 8px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .stats-button:hover {
+      background: rgba(96, 165, 250, 0.25);
+      border-color: rgba(96, 165, 250, 0.5);
+    }
 
       .footer {
         text-align: center;
@@ -620,6 +699,27 @@
           <div class="mini-toggle" id="togglePost">
             <div class="mini-toggle-knob"></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Settings Section -->
+    <div class="settings-section">
+      <div class="settings-header">
+        <span class="settings-title">⚙️ Settings</span>
+      </div>
+      <div class="settings-content">
+        <div class="settings-item">
+          <div class="settings-info">
+            <span class="settings-icon">💰</span>
+            <div class="settings-text">
+              <div class="settings-label">Annual Salary</div>
+              <div class="settings-value" id="currentSalary">Not set</div>
+            </div>
+          </div>
+          <button class="settings-edit-button" id="editSalaryButton">Edit</button>
         </div>
       </div>
     </div>
