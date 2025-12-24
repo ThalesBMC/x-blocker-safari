@@ -1,0 +1,40 @@
+🧹 COMO LIMPAR TODOS OS DADOS DA EXTENSÃO
+
+MÉTODO 1: Script Terminal (Mais Fácil)
+---------------------------------------
+Execute no terminal:
+  ./clear-extension-data.sh
+
+Depois:
+  1. Abra o Safari
+  2. Safari > Settings > Extensions
+  3. Remova "X Feed Blocker"
+  4. Rebuild do Xcode e reinstale
+
+MÉTODO 2: Console do Safari (Mais Direto)
+------------------------------------------
+1. Abra o Safari
+2. Vá em: Safari > Settings > Advanced > Show Develop menu
+3. Abra: Develop > Show JavaScript Console
+4. Abra o popup da extensão
+5. No console, cole e execute o código de clear-storage.js
+
+MÉTODO 3: Limpeza Manual Completa
+----------------------------------
+Execute estes comandos no terminal:
+
+# Fechar Safari
+killall Safari
+
+# Limpar TUDO relacionado a extensões
+rm -rf ~/Library/Containers/com.apple.Safari/Data/Library/Safari/WebExtensions/*
+rm -rf ~/Library/Containers/com.apple.Safari/Data/Library/Safari/LocalStorage/*
+rm -rf ~/Library/Containers/com.apple.Safari/Data/Library/Safari/IndexedDB/*
+rm -rf ~/Library/Caches/com.apple.Safari/*
+
+# Depois reinicie o Safari e reinstale a extensão
+
+MÉTODO 4: Via Popup (Temporário - Adicionar botão)
+---------------------------------------------------
+Abra o popup e no console do navegador execute:
+  browser.storage.local.clear().then(() => location.reload())
