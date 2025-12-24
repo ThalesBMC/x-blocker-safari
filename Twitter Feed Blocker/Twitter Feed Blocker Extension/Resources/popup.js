@@ -60,12 +60,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentPhrase = null;
   let moneyUpdateInterval = null;
+  let updateCounter = 0;
 
   // Load initial state
   loadState();
 
-  // Setup money tracking interval
-  moneyUpdateInterval = setInterval(updateMoneyDisplay, 1000);
+  // Setup money tracking interval with adaptive frequency
+  // First 5 minutes: update every second (300 updates)
+  // After 5 minutes: update every 10 seconds (performance optimization)
+  moneyUpdateInterval = setInterval(() => {
+    updateCounter++;
+    const useSlowUpdate = updateCounter > 300; // After 5 minutes
+    
+    if (!useSlowUpdate || updateCounter % 10 === 0) {
+      updateMoneyDisplay();
+    }
+  }, 1000);
 
   // Advanced options expand/collapse
   expandButton.addEventListener("click", function () {

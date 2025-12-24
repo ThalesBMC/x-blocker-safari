@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentPeriod = "today";
   let updateInterval = null;
+  let updateCounter = 0;
 
   // Period button handlers
   periodButtons.forEach((button) => {
@@ -63,8 +64,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Update stats every second
-  updateInterval = setInterval(updateStats, 1000);
+  // Update stats with adaptive frequency for performance
+  // First 5 minutes: every second, then every 10 seconds
+  updateInterval = setInterval(() => {
+    updateCounter++;
+    const useSlowUpdate = updateCounter > 300; // After 5 minutes
+    
+    if (!useSlowUpdate || updateCounter % 10 === 0) {
+      updateStats();
+    }
+  }, 1000);
   updateStats();
 
   function updateStats() {
