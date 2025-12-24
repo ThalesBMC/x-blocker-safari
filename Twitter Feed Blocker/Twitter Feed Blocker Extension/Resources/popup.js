@@ -137,6 +137,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Settings - Reset all data button
+  const resetAllButton = document.getElementById("resetAllButton");
+  if (resetAllButton) {
+    resetAllButton.addEventListener("click", function () {
+      if (
+        confirm(
+          "⚠️ WARNING: This will delete ALL data including:\n\n" +
+          "• Annual salary\n" +
+          "• All statistics (daily, weekly, monthly, yearly)\n" +
+          "• Advanced blocking options\n" +
+          "• Extension state\n\n" +
+          "This cannot be undone. Are you sure?"
+        )
+      ) {
+        // Clear all storage data
+        browser.storage.local.clear().then(() => {
+          // Reset to default state
+          browser.storage.local
+            .set({
+              xFeedBlockerEnabled: true,
+              enabledAt: Date.now(),
+              lastResetDate: new Date().toDateString(),
+            })
+            .then(() => {
+              alert("✅ All data has been reset! The extension will reload.");
+              // Reload the popup to reflect changes
+              window.location.reload();
+            });
+        });
+      }
+    });
+  }
+
   // Disable modal handlers
   modalCancel.addEventListener("click", hideDisableModal);
 
