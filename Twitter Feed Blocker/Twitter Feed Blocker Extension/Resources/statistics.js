@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const timeSaved = document.getElementById("timeSaved");
   const timeWasted = document.getElementById("timeWasted");
   const netSubtitle = document.getElementById("netSubtitle");
-  const weekChart = document.getElementById("weekChart");
   const insightTitle = document.getElementById("insightTitle");
   const insightText = document.getElementById("insightText");
   const resetButton = document.getElementById("resetButton");
@@ -137,11 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
           netSubtitle.textContent = "You're winning! 🎯";
         } else {
           netSubtitle.textContent = "Time to refocus 💪";
-        }
-
-        // Update chart (only for today)
-        if (currentPeriod === "today") {
-          updateWeekChart(result, hourlyRate, currentSessionSaved, currentSessionWasted);
         }
 
         // Update insights
@@ -278,67 +272,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     return { timeSaved: totalSaved, timeWasted: totalWasted };
-  }
-
-  function getLast7Days() {
-    const days = [];
-    for (let i = 1; i <= 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      days.push(date.toDateString());
-    }
-    return days;
-  }
-
-  function updateWeekChart(result, hourlyRate, currentSessionSaved, currentSessionWasted) {
-    const dailyStats = result.dailyStats || {};
-    const last7Days = getLast7Days().reverse();
-    const today = new Date().toDateString();
-
-    weekChart.innerHTML = "";
-
-    // Collect all values first to find max for scaling
-    const chartData = [];
-
-    // Add today (including current session)
-    const todayTotalSaved = (result.totalTimeSaved || 0) + (currentSessionSaved || 0);
-    const todaySavedHours = todayTotalSaved / (1000 * 60 * 60);
-    const todayMoney = todaySavedHours * hourlyRate;
-    chartData.push({ label: "Today", value: todayMoney });
-
-    // Add last 7 days
-    last7Days.forEach((dateStr) => {
-      const date = new Date(dateStr);
-      const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
-      const stats = dailyStats[dateStr] || { timeSaved: 0 };
-      const hours = stats.timeSaved / (1000 * 60 * 60);
-      const money = hours * hourlyRate;
-      chartData.push({ label: dayName, value: money });
-    });
-
-    // Find max value for dynamic scaling
-    const maxValue = Math.max(...chartData.map(d => d.value), 1); // At least 1 to avoid division by zero
-
-    // Render bars
-    chartData.forEach(data => {
-      addChartBar(data.label, data.value, maxValue);
-    });
-  }
-
-  function addChartBar(label, value, maxValue) {
-    // Calculate percentage based on max value (dynamic scaling)
-    const percentage = maxValue > 0 ? (value / maxValue) * 100 : 0;
-
-    const barItem = document.createElement("div");
-    barItem.className = "bar-item";
-    barItem.innerHTML = `
-      <div class="bar-label">${label}</div>
-      <div class="bar-container">
-        <div class="bar-fill" style="width: ${percentage}%"></div>
-      </div>
-      <div class="bar-value">$${value.toFixed(2)}</div>
-    `;
-    weekChart.appendChild(barItem);
   }
 
   function updateInsights(stats, net, salary) {

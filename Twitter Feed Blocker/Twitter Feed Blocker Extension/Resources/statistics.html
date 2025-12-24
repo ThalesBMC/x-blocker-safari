@@ -144,63 +144,7 @@
         color: rgba(255, 255, 255, 0.6);
       }
 
-      .chart-card {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        margin-bottom: 16px;
-      }
-
-      .chart-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 16px;
-      }
-
-      .bar-chart {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .bar-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .bar-label {
-        width: 80px;
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      .bar-container {
-        flex: 1;
-        height: 24px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        overflow: hidden;
-        position: relative;
-      }
-
-      .bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #22c55e, #16a34a);
-        border-radius: 12px;
-        transition: width 0.5s ease;
-      }
-
-      .bar-value {
-        width: 60px;
-        text-align: right;
-        font-size: 13px;
-        font-weight: 600;
-        color: #22c55e;
-      }
-
-      .insight-card {
+    .insight-card {
         background: linear-gradient(
           135deg,
           rgba(96, 165, 250, 0.15),
@@ -294,14 +238,7 @@
       </div>
     </div>
 
-    <div class="chart-card">
-      <div class="chart-title">Daily Breakdown (Last 7 Days)</div>
-      <div class="bar-chart" id="weekChart">
-        <!-- Will be populated by JS -->
-      </div>
-    </div>
-
-    <div class="insight-card">
+  <div class="insight-card">
       <div class="insight-icon">💡</div>
       <div class="insight-title" id="insightTitle">Great job!</div>
       <div class="insight-text" id="insightText">Loading insights...</div>
