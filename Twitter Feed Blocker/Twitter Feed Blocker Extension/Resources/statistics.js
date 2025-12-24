@@ -35,10 +35,25 @@ document.addEventListener("DOMContentLoaded", function () {
     ) {
       // Get current data to preserve important settings
       // IMPORTANT: Preserves annualSalary, advanced blocking options, and extension state
-      browser.storage.local.get(null).then((allData) => {
-        browser.storage.local
-          .set({
-            ...allData, // Preserve everything (salary, advanced options, etc)
+      browser.storage.local
+        .get(null)
+        .then((allData) => {
+          const now = Date.now();
+          const today = new Date().toDateString();
+          
+          // Preserve important settings
+          const preservedData = {
+            annualSalary: allData.annualSalary,
+            xFeedBlockerEnabled: allData.xFeedBlockerEnabled !== false,
+            blockNotifications: allData.blockNotifications || false,
+            blockMessages: allData.blockMessages || false,
+            blockExplore: allData.blockExplore || false,
+            blockPost: allData.blockPost || false,
+          };
+
+          // Reset statistics
+          return browser.storage.local.set({
+            ...preservedData,
             dailyStats: {},
             weeklyStats: {},
             monthlyStats: {},
@@ -51,15 +66,19 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             totalTimeSaved: 0,
             totalTimeWasted: 0,
-            enabledAt: allData.xFeedBlockerEnabled ? Date.now() : null,
-            disabledAt: !allData.xFeedBlockerEnabled ? Date.now() : null,
-            lastResetDate: new Date().toDateString(),
-          })
-          .then(() => {
-            alert("Statistics reset successfully!");
-            updateStats();
+            enabledAt: preservedData.xFeedBlockerEnabled ? now : null,
+            disabledAt: !preservedData.xFeedBlockerEnabled ? now : null,
+            lastResetDate: today,
           });
-      });
+        })
+        .then(() => {
+          alert("✅ Statistics reset successfully!");
+          updateStats();
+        })
+        .catch((error) => {
+          console.error("Reset statistics error:", error);
+          alert("❌ Error resetting statistics. Please try again.");
+        });
     }
   });
 

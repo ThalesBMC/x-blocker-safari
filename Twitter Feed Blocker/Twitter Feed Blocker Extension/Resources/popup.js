@@ -137,10 +137,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Settings - Reset all data button
+  // Settings - Reset all data button (now in Advanced Options)
   const resetAllButton = document.getElementById("resetAllButton");
   if (resetAllButton) {
-    resetAllButton.addEventListener("click", function () {
+    resetAllButton.addEventListener("click", function (e) {
+      e.stopPropagation(); // Prevent triggering parent click
+      
       if (
         confirm(
           "⚠️ WARNING: This will delete ALL data including:\n\n" +
@@ -151,20 +153,41 @@ document.addEventListener("DOMContentLoaded", function () {
           "This cannot be undone. Are you sure?"
         )
       ) {
-        // Clear all storage data
-        browser.storage.local.clear().then(() => {
-          // Reset to default state
-          browser.storage.local
-            .set({
-              xFeedBlockerEnabled: true,
-              enabledAt: Date.now(),
-              lastResetDate: new Date().toDateString(),
-            })
-            .then(() => {
+        // Get all keys first
+        browser.storage.local.get(null).then((allData) => {
+          const keysToRemove = Object.keys(allData);
+          
+          // Remove all keys
+          if (keysToRemove.length > 0) {
+            browser.storage.local.remove(keysToRemove).then(() => {
+              // Set default state
+              return browser.storage.local.set({
+                xFeedBlockerEnabled: true,
+                enabledAt: Date.now(),
+                lastResetDate: new Date().toDateString(),
+              });
+            }).then(() => {
               alert("✅ All data has been reset! The extension will reload.");
               // Reload the popup to reflect changes
               window.location.reload();
+            }).catch((error) => {
+              console.error("Reset error:", error);
+              alert("❌ Error resetting data. Please try again.");
             });
+          } else {
+            // No data to clear, just set defaults
+            browser.storage.local.set({
+              xFeedBlockerEnabled: true,
+              enabledAt: Date.now(),
+              lastResetDate: new Date().toDateString(),
+            }).then(() => {
+              alert("✅ Extension reset to default state!");
+              window.location.reload();
+            });
+          }
+        }).catch((error) => {
+          console.error("Reset error:", error);
+          alert("❌ Error resetting data. Please try again.");
         });
       }
     });
