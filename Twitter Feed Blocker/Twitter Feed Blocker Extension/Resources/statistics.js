@@ -13,7 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentPeriod = "today";
   let updateInterval = null;
+  let heartbeatInterval = null;
   let updateCounter = 0;
+  let heartbeatCounter = 0;
+  let heartbeatInProgress = false; // Moved here to ensure it's declared before use
+
+  // Heartbeat constants - adaptive frequency (same as popup.js)
+  const HEARTBEAT_FAST = 5 * 1000; // 5 seconds (first 2 minutes)
+  const HEARTBEAT_MEDIUM = 15 * 1000; // 15 seconds (2-5 minutes)
+  const HEARTBEAT_SLOW = 60 * 1000; // 60 seconds (after 5 minutes)
+  const MAX_HEARTBEAT_GAP = 5 * 60 * 1000; // 5 minutes - if gap is larger, assume Safari was closed
 
   // Period button handlers
   periodButtons.forEach((button) => {
@@ -24,6 +33,112 @@ document.addEventListener("DOMContentLoaded", function () {
       updateStats();
     });
   });
+
+  // Setup adaptive heartbeat - starts fast, slows down over time
+  function scheduleNextHeartbeat() {
+    heartbeatCounter++;
+    
+    // Determine interval based on how long page has been open
+    let interval;
+    if (heartbeatCounter <= 24) {
+      // First 2 minutes (24 * 5s = 120s): every 5 seconds
+      interval = HEARTBEAT_FAST;
+    } else if (heartbeatCounter <= 36) {
+      // 2-5 minutes (12 * 15s = 180s more): every 15 seconds
+      interval = HEARTBEAT_MEDIUM;
+    } else {
+      // After 5 minutes: every 60 seconds
+      interval = HEARTBEAT_SLOW;
+    }
+
+    heartbeatInterval = setTimeout(() => {
+      saveHeartbeat();
+      scheduleNextHeartbeat();
+    }, interval);
+  }
+
+  // Heartbeat system - detects when Safari was closed
+  function saveHeartbeat() {
+    // Prevent concurrent heartbeats within this page
+    if (heartbeatInProgress) return;
+    heartbeatInProgress = true;
+    
+    const now = Date.now();
+    const today = new Date().toDateString();
+    
+    browser.storage.local
+      .get([
+        "lastHeartbeat",
+        "xFeedBlockerEnabled",
+        "totalTimeSaved",
+        "totalTimeWasted",
+        "lastResetDate",
+      ])
+      .then((result) => {
+        const lastHeartbeat = result.lastHeartbeat;
+        const lastResetDate = result.lastResetDate;
+
+        // Check if day changed - if so, don't add time (let checkAndResetDaily handle it)
+        if (lastResetDate && lastResetDate !== today) {
+          browser.storage.local.set({ lastHeartbeat: now }).then(() => {
+            heartbeatInProgress = false;
+          });
+          return;
+        }
+
+        if (lastHeartbeat) {
+          const gap = now - lastHeartbeat;
+
+          // IMPORTANT: Skip if gap is too small (< 500ms) - another page likely just saved
+          // This prevents popup + statistics from double-counting
+          if (gap < 500) {
+            heartbeatInProgress = false;
+            return;
+          }
+
+          if (gap > 0 && gap <= MAX_HEARTBEAT_GAP) {
+            // Default to enabled (true) if xFeedBlockerEnabled is undefined
+            const isEnabled = result.xFeedBlockerEnabled !== false;
+            
+            if (isEnabled) {
+              const newTotal = (result.totalTimeSaved || 0) + gap;
+              browser.storage.local.set({
+                lastHeartbeat: now,
+                totalTimeSaved: newTotal,
+              }).then(() => {
+                heartbeatInProgress = false;
+              });
+            } else {
+              const newTotal = (result.totalTimeWasted || 0) + gap;
+              browser.storage.local.set({
+                lastHeartbeat: now,
+                totalTimeWasted: newTotal,
+              }).then(() => {
+                heartbeatInProgress = false;
+              });
+            }
+          } else {
+            browser.storage.local.set({ lastHeartbeat: now }).then(() => {
+              heartbeatInProgress = false;
+            });
+          }
+        } else {
+          // First heartbeat - just save timestamp, next heartbeat will count time
+          browser.storage.local.set({ lastHeartbeat: now }).then(() => {
+            heartbeatInProgress = false;
+          });
+        }
+      })
+      .catch(() => {
+        heartbeatInProgress = false;
+      });
+  }
+
+  // Save initial heartbeat immediately
+  saveHeartbeat();
+
+  // Start adaptive heartbeat
+  scheduleNextHeartbeat();
 
   // Update stats with adaptive frequency for performance
   // First 5 minutes: every second, then every 10 seconds
@@ -52,87 +167,152 @@ document.addEventListener("DOMContentLoaded", function () {
         "totalTimeSaved",
         "totalTimeWasted",
         "lastResetDate",
+        "lastHeartbeat",
       ])
       .then((result) => {
-        const salary = result.annualSalary || 0;
-        const hourlyRate = salary / (365 * 24);
-
         // Check if we need to reset daily stats
-        checkAndResetDaily(result);
+        const needsReset = checkAndResetDaily(result, (newData) => {
+          // After reset completes, display with new data
+          displayStats(newData);
+        });
 
-        // Get current session time
-        const now = Date.now();
-        let currentSessionSaved = 0;
-        let currentSessionWasted = 0;
-
-        if (result.xFeedBlockerEnabled && result.enabledAt) {
-          currentSessionSaved = now - result.enabledAt;
-        } else if (!result.xFeedBlockerEnabled && result.disabledAt) {
-          currentSessionWasted = now - result.disabledAt;
+        // If no reset needed, display with current data
+        if (!needsReset) {
+          displayStats(result);
         }
-
-        // Calculate stats based on period
-        const stats = calculatePeriodStats(
-          result,
-          currentPeriod,
-          currentSessionSaved,
-          currentSessionWasted
-        );
-
-        // Update UI
-        const savedHours = stats.timeSaved / (1000 * 60 * 60);
-        const wastedHours = stats.timeWasted / (1000 * 60 * 60);
-        const savedMoney = savedHours * hourlyRate;
-        const lostMoney = wastedHours * hourlyRate;
-        const net = savedMoney - lostMoney;
-
-        moneySaved.textContent = `$${savedMoney.toFixed(2)}`;
-        moneyLost.textContent = `$${lostMoney.toFixed(2)}`;
-        netImpact.textContent = `${net >= 0 ? "+" : ""}$${net.toFixed(2)}`;
-        netImpact.style.color = net >= 0 ? "#22c55e" : "#ef4444";
-
-        timeSaved.textContent = formatTime(stats.timeSaved);
-        timeWasted.textContent = formatTime(stats.timeWasted);
-
-        if (net >= 0) {
-          netSubtitle.textContent = "You're winning! 🎯";
-        } else {
-          netSubtitle.textContent = "Time to refocus 💪";
-        }
-
-        // Update insights
-        updateInsights(stats, net, salary);
       });
   }
 
-  function checkAndResetDaily(result) {
+  function displayStats(result) {
+    const salary = result.annualSalary || 0;
+    const hourlyRate = salary / (365 * 24);
+
+    // Get current session time (only count if Safari was actively running)
+    const now = Date.now();
+    const lastHeartbeat = result.lastHeartbeat || now;
+    const timeSinceHeartbeat = now - lastHeartbeat;
+    
+    // Handle undefined xFeedBlockerEnabled (default to true = enabled)
+    const isEnabled = result.xFeedBlockerEnabled !== false;
+    
+    // Only count time since last heartbeat if it's within the gap (Safari was open)
+    let currentSessionSaved = 0;
+    let currentSessionWasted = 0;
+
+    if (timeSinceHeartbeat <= MAX_HEARTBEAT_GAP) {
+      const activeTime = Math.max(0, timeSinceHeartbeat);
+      if (isEnabled) {
+        currentSessionSaved = activeTime;
+      } else {
+        currentSessionWasted = activeTime;
+      }
+    }
+
+    // Calculate stats based on period
+    const stats = calculatePeriodStats(
+      result,
+      currentPeriod,
+      currentSessionSaved,
+      currentSessionWasted
+    );
+
+    // Update UI
+    const savedHours = stats.timeSaved / (1000 * 60 * 60);
+    const wastedHours = stats.timeWasted / (1000 * 60 * 60);
+    const savedMoney = savedHours * hourlyRate;
+    const lostMoney = wastedHours * hourlyRate;
+    const net = savedMoney - lostMoney;
+
+    moneySaved.textContent = `$${savedMoney.toFixed(2)}`;
+    moneyLost.textContent = `$${lostMoney.toFixed(2)}`;
+    netImpact.textContent = `${net >= 0 ? "+" : ""}$${net.toFixed(2)}`;
+    netImpact.style.color = net >= 0 ? "#22c55e" : "#ef4444";
+
+    timeSaved.textContent = formatTime(stats.timeSaved);
+    timeWasted.textContent = formatTime(stats.timeWasted);
+
+    if (net >= 0) {
+      netSubtitle.textContent = "You're winning! 🎯";
+    } else {
+      netSubtitle.textContent = "Time to refocus 💪";
+    }
+
+    // Update insights
+    updateInsights(stats, net, salary);
+  }
+
+  function checkAndResetDaily(result, callback) {
     const today = new Date().toDateString();
     const lastReset = result.lastResetDate;
 
+    // If lastResetDate is not set, initialize it (first time user)
+    if (!lastReset) {
+      browser.storage.local.set({ lastResetDate: today }).then(() => {
+        result.lastResetDate = today;
+        if (callback) callback(result);
+      });
+      return true;
+    }
+
     if (lastReset !== today) {
-      // Save today's stats to history before resetting
+      const now = Date.now();
       const dailyStats = result.dailyStats || {};
-      if (lastReset) {
-        dailyStats[lastReset] = {
-          timeSaved: result.totalTimeSaved || 0,
-          timeWasted: result.totalTimeWasted || 0,
-        };
+
+      // With heartbeat system, totalTimeSaved/Wasted already contains
+      // the ACTUAL time Safari was open (not theoretical time)
+      const lastDayTimeSaved = result.totalTimeSaved || 0;
+      const lastDayTimeWasted = result.totalTimeWasted || 0;
+
+      // Save lastReset day's stats (this is accurate because heartbeat tracked it)
+      dailyStats[lastReset] = {
+        timeSaved: lastDayTimeSaved,
+        timeWasted: lastDayTimeWasted,
+      };
+
+      // Handle SKIPPED DAYS - with heartbeat, Safari was closed so time = 0
+      const lastResetDateObj = new Date(lastReset);
+      const todayDateObj = new Date(today);
+      const daysDiff = Math.floor(
+        (todayDateObj - lastResetDateObj) / (1000 * 60 * 60 * 24)
+      );
+
+      if (daysDiff > 1) {
+        // Safari was closed on these days, so fill with zeros
+        for (let i = 1; i < daysDiff; i++) {
+          const skippedDate = new Date(lastResetDateObj);
+          skippedDate.setDate(skippedDate.getDate() + i);
+          const skippedDateStr = skippedDate.toDateString();
+
+          if (!dailyStats[skippedDateStr]) {
+            dailyStats[skippedDateStr] = {
+              timeSaved: 0,
+              timeWasted: 0,
+            };
+          }
+        }
       }
 
-      // Reset ONLY daily counters, preserve all other data
-      // IMPORTANT: Using spread operator to preserve annualSalary, advanced options, etc.
+      // Reset daily counters for today
       browser.storage.local.get(null).then((allData) => {
-        browser.storage.local.set({
-          ...allData, // Preserve everything (salary, advanced options, etc)
+        const newData = {
+          ...allData,
           totalTimeSaved: 0,
           totalTimeWasted: 0,
-          enabledAt: result.xFeedBlockerEnabled ? Date.now() : null,
-          disabledAt: !result.xFeedBlockerEnabled ? Date.now() : null,
+          enabledAt: result.xFeedBlockerEnabled ? now : null,
+          disabledAt: !result.xFeedBlockerEnabled ? now : null,
+          lastHeartbeat: now,
           lastResetDate: today,
           dailyStats: dailyStats,
+        };
+
+        browser.storage.local.set(newData).then(() => {
+          if (callback) callback(newData);
         });
       });
+
+      return true; // Reset is happening
     }
+    return false; // No reset needed
   }
 
   function calculatePeriodStats(
@@ -168,6 +348,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function getLast7Days() {
+    const days = [];
+    const today = new Date();
+    
+    // Get the last 6 days (not including today, since today's stats are passed separately)
+    for (let i = 1; i <= 6; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      days.push(date.toDateString());
+    }
+    
+    return days;
+  }
+
   function calculateWeekStats(result, todaySaved, todayWasted) {
     const dailyStats = result.dailyStats || {};
     const last7Days = getLast7Days();
@@ -187,13 +381,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function calculateMonthStats(result, todaySaved, todayWasted) {
     const dailyStats = result.dailyStats || {};
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
+    const today = new Date();
+    const todayStr = today.toDateString();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
 
     let totalSaved = todaySaved;
     let totalWasted = todayWasted;
 
     Object.keys(dailyStats).forEach((dateStr) => {
+      // Skip today since it's already included in todaySaved/todayWasted
+      if (dateStr === todayStr) return;
+      
       const date = new Date(dateStr);
       if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
         totalSaved += dailyStats[dateStr].timeSaved || 0;
@@ -206,12 +405,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function calculateYearStats(result, todaySaved, todayWasted) {
     const dailyStats = result.dailyStats || {};
-    const currentYear = new Date().getFullYear();
+    const today = new Date();
+    const todayStr = today.toDateString();
+    const currentYear = today.getFullYear();
 
     let totalSaved = todaySaved;
     let totalWasted = todayWasted;
 
     Object.keys(dailyStats).forEach((dateStr) => {
+      // Skip today since it's already included in todaySaved/todayWasted
+      if (dateStr === todayStr) return;
+      
       const date = new Date(dateStr);
       if (date.getFullYear() === currentYear) {
         totalSaved += dailyStats[dateStr].timeSaved || 0;
@@ -224,11 +428,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function calculateAllTimeStats(result, todaySaved, todayWasted) {
     const dailyStats = result.dailyStats || {};
+    const todayStr = new Date().toDateString();
 
     let totalSaved = todaySaved;
     let totalWasted = todayWasted;
 
     Object.keys(dailyStats).forEach((dateStr) => {
+      // Skip today since it's already included in todaySaved/todayWasted
+      if (dateStr === todayStr) return;
+      
       totalSaved += dailyStats[dateStr].timeSaved || 0;
       totalWasted += dailyStats[dateStr].timeWasted || 0;
     });
@@ -290,6 +498,18 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("unload", function () {
     if (updateInterval) {
       clearInterval(updateInterval);
+    }
+    if (heartbeatInterval) {
+      clearTimeout(heartbeatInterval); // Changed to clearTimeout for adaptive heartbeat
+    }
+    // Save final heartbeat on close
+    saveHeartbeat();
+  });
+
+  // Also save heartbeat when page becomes hidden (more reliable than unload on Safari)
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+      saveHeartbeat();
     }
   });
 });

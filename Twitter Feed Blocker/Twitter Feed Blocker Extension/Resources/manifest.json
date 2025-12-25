@@ -14,7 +14,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://twitter.com/*", "*://x.com/*", "*://mobile.twitter.com/*"],
+      "matches": [
+        "*://twitter.com/*",
+        "*://x.com/*",
+        "*://mobile.twitter.com/*"
+      ],
       "css": ["styles.css"],
       "js": ["content.js"],
       "run_at": "document_start"
