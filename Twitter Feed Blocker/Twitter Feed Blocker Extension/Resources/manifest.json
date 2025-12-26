@@ -12,7 +12,16 @@
       "128": "icons/icon-128.png"
     }
   },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
     {
       "matches": [
         "*://twitter.com/*",
@@ -20,7 +29,6 @@
         "*://mobile.twitter.com/*"
       ],
       "css": ["styles.css"],
-      "js": ["content.js"],
       "run_at": "document_start"
     }
   ],

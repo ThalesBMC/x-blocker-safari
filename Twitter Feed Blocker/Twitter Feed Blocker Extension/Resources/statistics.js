@@ -13,15 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentPeriod = "today";
   let updateInterval = null;
-  let heartbeatInterval = null;
   let updateCounter = 0;
-  let heartbeatCounter = 0;
-  let heartbeatInProgress = false; // Moved here to ensure it's declared before use
 
-  // Heartbeat constants - adaptive frequency (same as popup.js)
-  const HEARTBEAT_FAST = 5 * 1000; // 5 seconds (first 2 minutes)
-  const HEARTBEAT_MEDIUM = 15 * 1000; // 15 seconds (2-5 minutes)
-  const HEARTBEAT_SLOW = 60 * 1000; // 60 seconds (after 5 minutes)
+  // Heartbeat constant for display calculations
   const MAX_HEARTBEAT_GAP = 5 * 60 * 1000; // 5 minutes - if gap is larger, assume Safari was closed
 
   // Period button handlers
@@ -34,111 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Setup adaptive heartbeat - starts fast, slows down over time
-  function scheduleNextHeartbeat() {
-    heartbeatCounter++;
-    
-    // Determine interval based on how long page has been open
-    let interval;
-    if (heartbeatCounter <= 24) {
-      // First 2 minutes (24 * 5s = 120s): every 5 seconds
-      interval = HEARTBEAT_FAST;
-    } else if (heartbeatCounter <= 36) {
-      // 2-5 minutes (12 * 15s = 180s more): every 15 seconds
-      interval = HEARTBEAT_MEDIUM;
-    } else {
-      // After 5 minutes: every 60 seconds
-      interval = HEARTBEAT_SLOW;
-    }
-
-    heartbeatInterval = setTimeout(() => {
-      saveHeartbeat();
-      scheduleNextHeartbeat();
-    }, interval);
-  }
-
-  // Heartbeat system - detects when Safari was closed
-  function saveHeartbeat() {
-    // Prevent concurrent heartbeats within this page
-    if (heartbeatInProgress) return;
-    heartbeatInProgress = true;
-    
-    const now = Date.now();
-    const today = new Date().toDateString();
-    
-    browser.storage.local
-      .get([
-        "lastHeartbeat",
-        "xFeedBlockerEnabled",
-        "totalTimeSaved",
-        "totalTimeWasted",
-        "lastResetDate",
-      ])
-      .then((result) => {
-        const lastHeartbeat = result.lastHeartbeat;
-        const lastResetDate = result.lastResetDate;
-
-        // Check if day changed - if so, don't add time (let checkAndResetDaily handle it)
-        if (lastResetDate && lastResetDate !== today) {
-          browser.storage.local.set({ lastHeartbeat: now }).then(() => {
-            heartbeatInProgress = false;
-          });
-          return;
-        }
-
-        if (lastHeartbeat) {
-          const gap = now - lastHeartbeat;
-
-          // IMPORTANT: Skip if gap is too small (< 500ms) - another page likely just saved
-          // This prevents popup + statistics from double-counting
-          if (gap < 500) {
-            heartbeatInProgress = false;
-            return;
-          }
-
-          if (gap > 0 && gap <= MAX_HEARTBEAT_GAP) {
-            // Default to enabled (true) if xFeedBlockerEnabled is undefined
-            const isEnabled = result.xFeedBlockerEnabled !== false;
-            
-            if (isEnabled) {
-              const newTotal = (result.totalTimeSaved || 0) + gap;
-              browser.storage.local.set({
-                lastHeartbeat: now,
-                totalTimeSaved: newTotal,
-              }).then(() => {
-                heartbeatInProgress = false;
-              });
-            } else {
-              const newTotal = (result.totalTimeWasted || 0) + gap;
-              browser.storage.local.set({
-                lastHeartbeat: now,
-                totalTimeWasted: newTotal,
-              }).then(() => {
-                heartbeatInProgress = false;
-              });
-            }
-          } else {
-            browser.storage.local.set({ lastHeartbeat: now }).then(() => {
-              heartbeatInProgress = false;
-            });
-          }
-        } else {
-          // First heartbeat - just save timestamp, next heartbeat will count time
-          browser.storage.local.set({ lastHeartbeat: now }).then(() => {
-            heartbeatInProgress = false;
-          });
-        }
-      })
-      .catch(() => {
-        heartbeatInProgress = false;
-      });
-  }
-
-  // Save initial heartbeat immediately
-  saveHeartbeat();
-
-  // Start adaptive heartbeat
-  scheduleNextHeartbeat();
+  // Trigger a heartbeat in background script when statistics page opens
+  browser.runtime.sendMessage({ action: "forceHeartbeat" }).catch(() => {
+    // Background might not be ready yet, that's ok
+  });
 
   // Update stats with adaptive frequency for performance
   // First 5 minutes: every second, then every 10 seconds
@@ -499,17 +392,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (updateInterval) {
       clearInterval(updateInterval);
     }
-    if (heartbeatInterval) {
-      clearTimeout(heartbeatInterval); // Changed to clearTimeout for adaptive heartbeat
-    }
-    // Save final heartbeat on close
-    saveHeartbeat();
+    // Trigger heartbeat in background when page closes
+    browser.runtime.sendMessage({ action: "forceHeartbeat" }).catch(() => {});
   });
 
-  // Also save heartbeat when page becomes hidden (more reliable than unload on Safari)
+  // Also trigger heartbeat when page becomes hidden
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
-      saveHeartbeat();
+      browser.runtime.sendMessage({ action: "forceHeartbeat" }).catch(() => {});
     }
   });
 });
