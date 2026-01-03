@@ -31,13 +31,16 @@
   font-size: 48px;
   margin-bottom: 20px;
 }
+.modal-message {
+  padding-bottom: 12px;
+}
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .feed-blocked-message h2 {
     color: #e7e9ea;
   }
-  
+
   .feed-blocked-message p {
     color: #71767b;
   }

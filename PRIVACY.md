@@ -62,3 +62,5 @@ If you have any questions about this Privacy Policy, please contact us:
 🔒 **Everything stored locally**
 🔒 **Your privacy is 100% protected**
 
+
+

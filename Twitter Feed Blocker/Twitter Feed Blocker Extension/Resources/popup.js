@@ -22,6 +22,86 @@ const motivationalPhrases = [
     message: "",
     phrase: "I accept being distracted while others achieve their dreams",
   },
+  {
+    message: "",
+    phrase: "I prefer watching others live their lives instead of living mine",
+  },
+  {
+    message: "",
+    phrase: "I trade my focus and productivity for endless notifications",
+  },
+  {
+    message: "",
+    phrase: "I let algorithms decide how I spend my limited time on earth",
+  },
+  {
+    message: "",
+    phrase: "I choose short term pleasure over long term fulfillment",
+  },
+  {
+    message: "",
+    phrase: "I accept that my attention is the product being sold here",
+  },
+  {
+    message: "",
+    phrase: "I willingly feed my anxiety with constant comparison to others",
+  },
+  {
+    message: "",
+    phrase: "I choose to scroll instead of working on my goals today",
+  },
+  {
+    message: "",
+    phrase: "I let social media control my mood and self worth",
+  },
+  {
+    message: "",
+    phrase: "I trade real connections for superficial online interactions",
+  },
+  {
+    message: "",
+    phrase: "I accept losing hours of my day to content I wont remember",
+  },
+  {
+    message: "",
+    phrase: "I choose outrage and drama over peace and productivity",
+  },
+  {
+    message: "",
+    phrase: "I let strangers opinions affect my mental health daily",
+  },
+  {
+    message: "",
+    phrase: "I accept being a pawn in the attention economy game",
+  },
+  {
+    message: "",
+    phrase: "I trade my creative energy for passive consumption",
+  },
+  {
+    message: "",
+    phrase: "I choose to feel inadequate by comparing my life to highlights",
+  },
+  {
+    message: "",
+    phrase: "I willingly sacrifice my sleep for one more scroll session",
+  },
+  {
+    message: "",
+    phrase: "I accept that I am addicted and refuse to change today",
+  },
+  {
+    message: "",
+    phrase: "I let fear of missing out control my daily decisions",
+  },
+  {
+    message: "",
+    phrase: "I choose digital noise over the silence I need to think",
+  },
+  {
+    message: "",
+    phrase: "I trade my potential for temporary entertainment",
+  },
 ];
 
 document.addEventListener("DOMContentLoaded", function () {

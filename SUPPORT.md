@@ -95,3 +95,5 @@ Please open an issue on our [GitHub repository](https://github.com/ThalesBMC/x-b
 
 Thank you for using X Feed Blocker! 🚫📱
 
+
+
